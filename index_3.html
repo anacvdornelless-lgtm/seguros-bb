@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Seguro Empresarial recomendado – Protótipo BB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#E6E8EC;--navy:#0A3D38;--blue:#0B4740;--blue-2:#2F6B5F;--blue-soft:#DDF2EE;--mint:#C4EAE3;--icon:#2F6B5F;
+  --yellow:#FCEA2B;--yellow-d:#F2D600;--bg:#F6F8F7;--card:#FFFFFF;--ink:#1D2523;--muted:#5D6966;
+  --line:#E1E7E5;--ok:#0F7B4A;--ok-soft:#E3F5EC;--warn:#B45309;--warn-soft:#FFF1DC;--bad:#B42318;--bad-soft:#FDECEA;
+  box-sizing:border-box;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#14171C}}
+:root[data-theme="dark"]{--page:#14171C}
+*{box-sizing:inherit;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--page);font-family:"Inter","Open Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);display:flex;justify-content:center;align-items:center;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;text-align:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue-2);outline-offset:2px}
+a{color:var(--blue);font-weight:600;text-decoration:none}
+
+.phone{position:relative;width:432px;height:min(920px,100dvh);background:var(--bg);overflow:hidden;display:flex;flex-direction:column}
+@media (min-width:600px){.phone{border-radius:34px;box-shadow:0 20px 60px rgba(0,40,36,.28);height:min(900px,calc(100dvh - 32px))}}
+@media (max-width:599px){.phone{width:100%;height:100%}}
+
+.top{flex:none;background:#0A3D38;color:#fff;padding:calc(env(safe-area-inset-top,0px) + 14px) 12px 14px;display:flex;align-items:center;justify-content:space-between}
+.top button{width:40px;height:40px;border-radius:50%;display:grid;place-items:center}
+.top svg{width:24px;height:24px;fill:#fff}
+.top h1{font-size:17px;font-weight:600}
+.brand{display:flex;align-items:center;gap:8px}
+.brand img{height:24px;width:auto;display:block;border-radius:6px}
+.scroll{flex:1;overflow-y:auto;scrollbar-width:none;padding-bottom:18px}
+.scroll::-webkit-scrollbar{display:none}
+
+/* Hero */
+.hero{background:var(--card);padding:18px 20px 20px;position:relative;overflow:hidden;border-radius:0 0 24px 24px}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--blue-soft);color:var(--blue);font-size:13px;font-weight:600;padding:7px 10px 7px 12px;border-radius:99px;position:relative;z-index:1}
+.pill svg{width:15px;height:15px;fill:var(--blue)}
+.pill .chev{width:16px;height:16px}
+.hero h2{font-size:27px;font-weight:800;letter-spacing:-.5px;line-height:1.1;margin-top:14px;color:var(--navy);position:relative;z-index:1;max-width:62%}
+.hero .price{margin-top:8px;position:relative;z-index:1;color:var(--navy)}
+.hero .price b{font-size:36px;font-weight:800;letter-spacing:-1px}
+.hero .price span{font-size:16px;font-weight:500}
+.hero .biz{font-size:13px;color:var(--muted);margin-top:6px;position:relative;z-index:1}
+.hero .art{position:absolute;right:-18px;top:34px;width:50%;max-width:210px}
+.conf{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:8px;position:relative;z-index:1}
+.conf.mid{background:var(--warn-soft);color:var(--warn)}
+.conf.high{background:var(--ok-soft);color:var(--ok)}
+.actions{display:flex;gap:12px;margin-top:18px;position:relative;z-index:1}
+.act{width:104px;aspect-ratio:1/1;background:#fff;border:1.5px solid var(--line);border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:8px;text-align:center}
+.act svg{width:28px;height:28px;fill:var(--icon)}
+.act b{font-size:13px;font-weight:600;line-height:1.25;color:var(--ink)}
+.act:active{background:var(--mint)}
+
+.card{background:var(--card);border-radius:22px;margin:14px 14px 0;padding:18px 16px;box-shadow:0 1px 3px rgba(10,61,56,.06)}
+.card h3{font-size:19px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.card .sub{font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.4}
+
+/* Sinais */
+.stage{position:relative;height:300px}
+.stage .bld{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:150px}
+.stage svg.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.sig{position:absolute;width:104px;aspect-ratio:1/1;background:#fff;border:1.5px solid var(--line);border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:8px;text-align:center}
+.sig .ic{width:28px;height:28px}
+.sig b{font-size:13px;font-weight:600;line-height:1.25;color:var(--ink)}
+.s1{left:0;top:0}.s2{right:0;top:0}.s3{left:0;bottom:0}.s4{right:0;bottom:0}
+.logic{margin-top:14px;background:var(--bg);border-radius:14px;padding:12px 13px;font-size:13px;line-height:1.5}
+.logic b{font-weight:700;color:var(--navy)}
+.trace{display:grid;gap:7px;margin-top:10px}
+.trace small{color:var(--muted);font-size:11.5px}
+.trace div{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;font-size:12.5px}
+.trace span.p{font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;white-space:nowrap}
+.p-e{background:var(--blue-soft);color:var(--blue)}
+.p-p{background:var(--yellow);color:var(--navy)}
+
+/* Confirmar */
+.cf-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.cf-row:last-of-type{border:0}
+.cf-row .t{flex:1;line-height:1.3}
+.cf-row .t small{display:block;font-size:12px;color:var(--muted)}
+.tagx{font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;background:#FFF1CC;color:#7A4A00;white-space:nowrap}
+.tagx.ok{background:var(--ok-soft);color:var(--ok)}
+.cf-btns{display:flex;gap:8px;margin-top:12px}
+.chip{flex:1;height:46px;border-radius:23px;background:var(--mint);color:var(--blue);font-weight:600;font-size:14.5px;text-align:center}
+.chip.p{background:var(--mint);color:var(--navy)}
+.okline{display:none;align-items:center;gap:8px;color:var(--ok);font-weight:600;font-size:14px;margin-top:10px}
+.okline svg{width:20px;height:20px;fill:var(--ok)}
+.skip{display:block;margin:10px auto 0;font-size:13.5px;font-weight:600;color:var(--muted);padding:6px 10px;text-align:center}
+.more-btn{width:100%;height:46px;margin-top:14px;border-radius:23px;background:var(--mint);color:var(--blue);font-weight:600;font-size:14px;text-align:center}
+
+/* Coberturas */
+.cov{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.cov:last-child{border:0}
+.cov .ib{width:44px;height:44px;border-radius:14px;background:#fff;border:1.5px solid var(--line);display:grid;place-items:center;flex:none}
+.cov .ib svg{width:22px;height:22px}
+.cov .t{flex:1;line-height:1.35}
+.cov .t b{font-size:14.5px;font-weight:700;color:var(--navy);display:block}
+.cov .t span{font-size:13px;color:var(--muted);display:none;margin-top:3px}
+.cov.open .t span{display:block}
+.cov .t em{font-style:normal;display:block;margin-top:5px;font-weight:600;color:var(--navy)}
+.cov .ib{cursor:pointer;transition:background .2s}
+.cov.open .ib{background:var(--blue)}
+.cov.open .ib svg{filter:brightness(0) invert(1)}
+.cov .t i{font-style:normal;display:inline-block;margin-top:5px;font-size:11.5px;font-weight:600;color:var(--blue);background:var(--blue-soft);padding:2px 8px;border-radius:6px}
+.assist{margin-top:10px;background:var(--bg);border-radius:14px;padding:12px 13px;font-size:13px;line-height:1.45}
+.assist b{color:var(--navy)}
+
+.foot{font-size:11.5px;color:var(--muted);text-align:center;margin:14px 20px 0;line-height:1.4}
+
+.cta-wrap{flex:none;background:#fff;border-top:1px solid var(--line);padding:12px 16px calc(env(safe-area-inset-bottom,0px) + 12px)}
+.cta{width:100%;height:56px;border-radius:30px;background:#FEFB30;color:var(--navy);font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px}
+.cta:active{background:#F2EE1C}
+.cta svg{width:22px;height:22px;fill:var(--navy)}
+.cta-meta{display:flex;justify-content:center;align-items:center;margin-top:9px;font-size:12.5px;color:var(--muted)}
+.cta-meta span{display:inline-flex;align-items:center;gap:5px}
+.cta-meta svg{width:14px;height:14px;fill:var(--muted)}
+.cta-meta button{font-size:12.5px;color:var(--blue);font-weight:600}
+
+/* Sheets */
+.scrim{position:absolute;inset:0;background:rgba(10,20,50,.5);opacity:0;pointer-events:none;transition:opacity .25s;z-index:20}
+.scrim.show{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;z-index:21;transform:translateY(105%);transition:transform .3s ease;max-height:90%;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px)}
+.sheet.show{transform:none}
+.grab{width:44px;height:5px;border-radius:3px;background:#D5DAE5;margin:10px auto 4px;flex:none}
+.sh{display:flex;justify-content:space-between;align-items:center;padding:6px 20px 8px;flex:none}
+.sh h4{font-size:18px;font-weight:700;color:var(--navy)}
+.sh button{width:36px;height:36px;border-radius:50%;display:grid;place-items:center}
+.sh svg{width:22px;height:22px;fill:var(--muted)}
+.sb{overflow-y:auto;padding:0 20px 16px}
+.sf{padding:12px 20px 16px;border-top:1px solid var(--line);flex:none}
+.btn{width:100%;height:52px;border-radius:26px;background:var(--blue);color:#fff;font-weight:600;font-size:16px;text-align:center}
+.note{font-size:13px;color:var(--muted);line-height:1.45;margin-bottom:12px}
+.h5{font-size:15px;font-weight:700;color:var(--navy);margin:16px 0 8px}
+
+.kv{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.kv span:first-child{color:var(--muted)}
+.kv span:last-child{text-align:right;font-weight:600}
+.kv small{display:block;font-weight:600;font-size:11px;color:#7A4A00}
+.steps{display:grid;gap:10px}
+.step{display:flex;gap:10px;font-size:13.5px;line-height:1.4}
+.step .n{width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center;flex:none}
+.box{background:var(--bg);border-radius:12px;padding:11px 12px;font-size:13px;line-height:1.45;margin-top:12px}
+
+/* Planos */
+.seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--bg);border-radius:14px;padding:4px;gap:4px;margin-bottom:14px}
+.seg button{height:44px;border-radius:11px;font-weight:600;font-size:14px;color:var(--muted);text-align:center;position:relative}
+.seg button[aria-selected="true"]{background:#fff;color:var(--navy);box-shadow:0 1px 4px rgba(10,61,56,.15)}
+.seg .dot{position:absolute;top:5px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--yellow-d)}
+.ph{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.ph b{font-size:20px;font-weight:800;color:var(--navy)}
+.ph span{font-size:18px;font-weight:700;color:var(--navy)}
+.rec{display:inline-block;font-size:11px;font-weight:700;background:var(--yellow);color:var(--navy);border-radius:6px;padding:3px 8px;margin-top:6px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.facts div{background:var(--bg);border-radius:12px;padding:10px;text-align:center}
+.facts b{display:block;font-size:20px;font-weight:800;color:var(--navy)}
+.facts span{font-size:11.5px;color:var(--muted)}
+.fit{border-radius:12px;padding:11px 12px;font-size:13px;line-height:1.45;margin-bottom:6px}
+.fit.yes{background:var(--ok-soft);color:#0B5536}
+.fit.no{background:var(--warn-soft);color:#7A3A00}
+.cl{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.35;align-items:flex-start}
+.cl:last-child{border:0}
+.cl svg{width:20px;height:20px;flex:none;margin-top:1px}
+.cl.in svg{fill:var(--ok)}
+.cl.out{color:#9AA1B2}.cl.out svg{fill:#C3C9D6}
+.cl small{display:block;color:var(--muted);font-size:12px}
+.cl.out small{color:#B0B6C4}
+table.mx{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:4px}
+.mx th,.mx td{padding:8px 4px;border-bottom:1px solid var(--line);text-align:center}
+.mx th:first-child,.mx td:first-child{text-align:left;padding-left:0}
+.mx th{font-size:12px;color:var(--muted);font-weight:600}
+.mx th.cur{color:var(--navy)}
+.mx td.y{color:var(--ok);font-weight:700}
+.mx td.n{color:#C3C9D6}
+.mx tr.tot td{font-weight:700;color:var(--navy)}
+
+/* Riscos */
+.rk{border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px}
+.rk-h{display:flex;gap:10px;align-items:center}
+.rk-ic{width:38px;height:38px;border-radius:12px;background:#fff;border:1.5px solid var(--line);display:grid;place-items:center;flex:none}
+.rk-ic svg{width:20px;height:20px;margin:0}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.vs>div{border-radius:12px;padding:10px 12px}
+.vs small{display:block;font-size:12px;font-weight:600;margin-bottom:2px}
+.vs b{font-size:19px;font-weight:800;letter-spacing:-.3px}
+.vs .sem{background:var(--bad-soft);color:var(--bad)}
+.vs .com{background:var(--ok-soft);color:var(--ok)}
+.vs .com.no{background:var(--bg);color:var(--muted)}
+.vs.big b{font-size:24px}
+.save{font-size:13px;font-weight:600;color:var(--ok);margin-top:8px}
+.save.no{color:var(--muted);font-weight:500}
+.rk-sum{background:var(--navy);color:#fff;border-radius:16px;padding:14px;margin-bottom:14px}
+.rk-sum p{font-size:13.5px;line-height:1.4}
+.rk-sum .vs .sem{background:#fff;}
+.rk-sum .vs .com{background:#fff}
+.rk-sum .save{color:var(--yellow);font-size:14px}
+.rk-h b{font-size:14.5px;font-weight:700;color:var(--navy);line-height:1.3}
+.st{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;white-space:nowrap}
+.st.ok{background:var(--ok-soft);color:var(--ok)}
+.st.no{background:var(--bad-soft);color:var(--bad)}
+.rk p{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.4}
+.bar{height:8px;border-radius:4px;background:var(--bg);margin:10px 0 6px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#F5A524,#E8432A)}
+.rk-n{display:flex;justify-content:space-between;font-size:12.5px}
+.rk-n b{font-weight:700}
+
+/* Contratar */
+.sum div{display:flex;justify-content:space-between;font-size:14.5px;padding:7px 0}
+.sum div span:first-child{color:var(--muted)}
+.sum .tot{font-weight:700;font-size:18px;color:var(--navy);border-top:1px solid var(--line);margin-top:4px;padding-top:12px}
+.vig{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 4px}
+.vig button{border:2px solid var(--line);border-radius:12px;padding:10px;text-align:left;font-size:13px;line-height:1.3}
+.vig button b{display:block;font-size:14.5px;color:var(--navy)}
+.vig button[aria-pressed="true"]{border-color:var(--blue);background:#F1FAF8}
+.bio{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 0 4px}
+.bio-btn{width:84px;height:84px;border-radius:50%;background:var(--blue-soft);display:grid;place-items:center}
+.bio-btn svg{width:44px;height:44px;fill:var(--blue)}
+.bio span{font-size:13px;color:var(--muted)}
+.spin{width:32px;height:32px;border:4px solid var(--blue-soft);border-top-color:var(--blue);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.done{display:none;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:8px 0}
+.done .ok{width:70px;height:70px;border-radius:50%;background:var(--ok-soft);display:grid;place-items:center}
+.done .ok svg{width:38px;height:38px;fill:var(--ok)}
+.done h5{font-size:20px;font-weight:700;color:var(--navy)}
+.done p{font-size:14px;color:var(--muted);line-height:1.45}
+
+/* Editar dados */
+.ed{padding:12px 0;border-bottom:1px solid var(--line)}
+.ed:last-child{border:0}
+.ed label{font-size:14px;font-weight:600;display:block;margin-bottom:8px}
+.stepper{display:flex;align-items:center;gap:8px}
+.stepper .s{width:44px;height:44px;border-radius:12px;background:var(--blue-soft);color:var(--blue);font-size:22px;font-weight:600;text-align:center}
+.stepper output{flex:1;text-align:center;font-weight:700;font-size:16px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts button{padding:9px 12px;border-radius:10px;border:2px solid var(--line);font-size:13.5px;font-weight:600}
+.opts button[aria-pressed="true"]{border-color:var(--blue);background:#F1FAF8;color:var(--blue)}
+
+.drow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+.drow small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.tog{position:relative;width:46px;height:28px;border-radius:14px;background:#C8CFDD;flex:none;transition:background .2s}
+.tog::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tog[aria-checked="true"]{background:var(--blue)}
+.tog[aria-checked="true"]::after{transform:translateX(18px)}
+.toast{position:absolute;left:20px;right:20px;top:calc(env(safe-area-inset-top,0px) + 70px);background:#0A3D38;color:#fff;border-radius:12px;padding:12px 14px;font-size:14px;z-index:30;opacity:0;transform:translateY(-8px);transition:all .25s;pointer-events:none}
+.toast.show{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.sheet,.scrim,.toast{transition:none}.spin{animation-duration:2s}}
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <header class="top">
+    <button aria-label="Voltar"><svg viewBox="0 0 24 24"><path d="M15.4 7.4L14 6l-6 6 6 6 1.4-1.4L10.8 12z"/></svg></button>
+    <div class="brand"><img src="logo-bb.png" alt="Banco do Brasil" onerror="this.remove()"><h1>Seguros</h1></div>
+    <button id="helpBtn" aria-label="Ajuda"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 17h-2v-2h2zm2.1-7.8l-.9.9c-.7.7-1.2 1.3-1.2 2.9h-2v-.5c0-1.1.4-2.1 1.2-2.8l1.2-1.3A2 2 0 0014 9a2 2 0 00-4 0H8a4 4 0 018 0c0 .9-.4 1.6-.9 2.2z"/></svg></button>
+  </header>
+
+  <main class="scroll" id="scroll">
+
+    <section class="hero">
+      <button class="pill" id="recBtn" aria-label="Ver detalhes da recomendação"><svg viewBox="0 0 24 24"><path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z"/></svg>Recomendado para o seu restaurante<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6-1.4-1.4 4.6-4.6-4.6-4.6z"/></svg></button>
+      <h2 id="planName">Empresarial Prático</h2>
+      <div class="price"><b id="price">R$ 139,90</b><span>/mês</span></div>
+      <div class="biz">Restaurante · São Paulo/SP · 7 coberturas</div>
+
+      <svg class="art" viewBox="0 0 220 180" aria-hidden="true">
+        <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D9EFEA"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+        <rect width="220" height="180" fill="url(#sky)"/>
+        <polygon points="40,150 130,110 210,140 120,180" fill="#E6EFEC"/>
+        <polygon points="70,140 70,60 130,35 130,115" fill="#C9CED8"/>
+        <polygon points="130,115 130,35 195,60 195,140" fill="#A7AEBB"/>
+        <polygon points="70,60 130,35 195,60 135,85" fill="#DCE1EA"/>
+        <g fill="#8FBFB4" opacity=".85">
+          <polygon points="78,72 92,66 92,80 78,86"/><polygon points="98,63 112,57 112,71 98,77"/>
+          <polygon points="78,96 92,90 92,104 78,110"/><polygon points="98,87 112,81 112,95 98,101"/>
+          <polygon points="138,50 152,56 152,70 138,64"/><polygon points="158,58 172,64 172,78 158,72"/><polygon points="178,66 188,70 188,84 178,80"/>
+          <polygon points="138,74 152,80 152,94 138,88"/><polygon points="158,82 172,88 172,102 158,96"/><polygon points="178,90 188,94 188,108 178,104"/>
+        </g>
+        <polygon points="96,128 116,120 116,108 96,116" fill="#2F6B5F" opacity=".8"/>
+        <circle cx="52" cy="128" r="12" fill="#5DA35D"/><rect x="50" y="136" width="4" height="12" fill="#6B5135"/>
+      </svg>
+
+      <div class="actions">
+        <button class="act" id="cmpBtn" aria-label="Comparar os 3 planos">
+          <svg viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 00-1 1v16a1 1 0 001 1h6zm2 0v18h8a1 1 0 001-1V4a1 1 0 00-1-1zm2 4h5v2h-5zm0 4h5v2h-5zm0 4h5v2h-5z"/></svg>
+          <b>Comparar planos</b>
+        </button>
+        <button class="act" id="riskBtn" aria-label="Riscos do meu negócio">
+          <svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2zm0-4h-2v-4h2z"/></svg>
+          <b>Riscos do negócio</b>
+        </button>
+      </div>
+    </section>
+
+    <!-- Por que esse plano -->
+    <section class="card">
+      <h3>Por que esse plano?</h3>
+      <p class="sub">4 sinais encontrados nos dados da sua empresa.</p>
+      <div class="stage">
+        <svg class="lines" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true">
+          <g stroke="#2F6B5F" stroke-width="2" stroke-dasharray="5 5" fill="none">
+            <path d="M114 70 Q150 80 172 122"/><path d="M286 70 Q250 80 228 120"/>
+            <path d="M114 230 Q150 220 173 180"/><path d="M286 230 Q250 220 227 182"/>
+          </g>
+          <g fill="#2F6B5F" stroke="#fff" stroke-width="3">
+            <circle cx="172" cy="122" r="6"/><circle cx="228" cy="120" r="6"/><circle cx="173" cy="180" r="6"/><circle cx="227" cy="182" r="6"/>
+          </g>
+        </svg>
+        <svg class="bld" viewBox="0 0 200 170" aria-hidden="true">
+          <polygon points="10,120 100,80 190,120 100,165" fill="#EDF3F1"/>
+          <polygon points="55,125 55,45 100,25 100,105" fill="#8C95A6"/>
+          <polygon points="100,105 100,25 150,45 150,125" fill="#6F798C"/>
+          <polygon points="55,45 100,25 150,45 105,65" fill="#A9B1BF"/>
+          <g fill="#F6C46A">
+            <polygon points="61,58 72,53 72,63 61,68"/><polygon points="77,51 88,46 88,56 77,61"/>
+            <polygon points="61,78 72,73 72,83 61,88"/><polygon points="77,71 88,66 88,76 77,81"/>
+            <polygon points="106,46 117,51 117,61 106,56"/><polygon points="124,54 136,59 136,69 124,64"/>
+            <polygon points="106,68 117,73 117,83 106,78"/><polygon points="124,76 136,81 136,91 124,86"/>
+          </g>
+          <polygon points="66,108 84,100 84,88 66,96" fill="#2F6B5F"/>
+          <circle cx="160" cy="122" r="10" fill="#5DA35D"/><circle cx="40" cy="118" r="9" fill="#5DA35D"/>
+        </svg>
+        <div class="sig s1"><span id="i1"></span><b>Cozinha profissional</b></div>
+        <div class="sig s2"><span id="i2"></span><b>Câmaras frias</b></div>
+        <div class="sig s3"><span id="i3"></span><b>Aluguel mensal</b></div>
+        <div class="sig s4"><span id="i4"></span><b>Bens de R$ 521 mil</b></div>
+      </div>
+
+      <button class="more-btn" id="logicBtn" aria-expanded="false">Ver como os sinais levaram ao Prático</button>
+      <div class="logic" id="logic" hidden>
+        <b>Como os sinais levaram ao Prático</b>
+        <div class="trace">
+          <div><span>Cozinha profissional <small>(CNAE 5611-2/01 + equipamento de cozinha de R$ 126 mil)</small> → Incêndio</span><span class="p p-e">Desde o Essencial</span></div>
+          <div><span>Câmaras frias <small>(2 equipamentos de refrigeração, R$ 248 mil)</small> → Danos elétricos</span><span class="p p-e">Desde o Essencial</span></div>
+          <div><span>Aluguel mensal <small>(R$ 22.150 pagos todo mês)</small> → Perda de aluguel</span><span class="p p-e">Desde o Essencial</span></div>
+          <div><span>Bens de R$ 521 mil <small>(4 bens cadastrados)</small> → Roubo</span><span class="p p-p">Só a partir do Prático</span></div>
+        </div>
+        <p style="margin-top:10px">O Essencial deixaria os R$ 521 mil em bens sem proteção contra roubo. O Total soma RC do empregador e quebra de vidros: pode valer pelos 7 funcionários estimados, mas não há cadastro de vitrine na loja.</p>
+      </div>
+    </section>
+
+    <!-- Confirmar em 1 toque -->
+    <section class="card" id="confirmCard">
+      <h3>Quer revisar seus dados?</h3>
+      <p class="sub">Estes dados estão ausentes ou estimados no cadastro. Se algum estiver diferente, corrija quando quiser.</p>
+      <div id="cfList"></div>
+      <div class="cf-btns" id="cfBtns">
+        
+        <button class="chip p" id="cfEdit">Corrigir</button>
+      </div>
+      
+      <div class="okline" id="okline"><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Dados corrigidos por você. Valor atualizado.</div>
+    </section>
+
+    <!-- Coberturas -->
+    <section class="card">
+      <h3 id="covTitle">Coberturas incluídas</h3>
+      <p class="sub" id="covSub"></p>
+      <div id="covList"></div>
+      <div class="assist" id="assist"></div>
+    </section>
+
+    <p class="foot">*Protótipo Datathon Ibmec/BB Seguros com a empresa CASO_00044 da base de teste comum (dados fictícios fornecidos pelo desafio). Coberturas conforme o catálogo do desafio; preços e franquias ilustrativos.</p>
+  </main>
+
+  <div class="cta-wrap">
+    <button class="cta" id="buy">Contratar agora <svg viewBox="0 0 24 24"><path d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg></button>
+    <div class="cta-meta">
+      <span><svg viewBox="0 0 24 24"><path d="M18 8h-1V6A5 5 0 007 6v2H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zM9 6a3 3 0 016 0v2H9z"/></svg>Contratação segura com biometria</span>
+      
+    </div>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+
+  <!-- Detalhes da recomendação -->
+  <div class="sheet" id="shRec" role="dialog" aria-label="Detalhes da recomendação">
+    <div class="grab"></div>
+    <div class="sh"><h4>Detalhes da recomendação</h4><button data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M19 6.4L17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg></button></div>
+    <div class="sb">
+      <p class="note">Esta sugestão foi feita para um estabelecimento específico, com base nos dados que o banco já tem sobre a sua empresa.</p>
+      <div class="h5" style="margin-top:4px">Dados analisados</div>
+      <div id="recData"></div>
+      <div class="h5">Como chegamos ao plano</div>
+      <div class="steps">
+        <div class="step"><span class="n">1</span><div><b>Entender:</b> lemos atividade, endereço, porte, aluguel, despesas e bens do restaurante.</div></div>
+        <div class="step"><span class="n">2</span><div><b>Comparar:</b> cruzamos 4 sinais de risco com as coberturas de cada plano.</div></div>
+        <div class="step"><span class="n">3</span><div><b>Recomendar:</b> escolhemos o menor plano que cobre todos os sinais. Mais completo não significa melhor para você.</div></div>
+      </div>
+      <div class="box"><b>Um estabelecimento:</b> a empresa tem só a matriz da Alameda Estrela, então toda a proteção vai para esse endereço.</div>
+      <div class="box" id="recConf"></div>
+    </div>
+  </div>
+
+  <!-- Comparar planos -->
+  <div class="sheet" id="shPlans" role="dialog" aria-label="Comparar planos">
+    <div class="grab"></div>
+    <div class="sh"><h4>Comparar planos</h4><button data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M19 6.4L17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg></button></div>
+    <div class="sb">
+      <div class="seg" role="tablist" id="seg"></div>
+      <div id="planDetail"></div>
+      <div class="h5">Tabela completa</div>
+      <div id="matrix"></div>
+    </div>
+    <div class="sf"><button class="btn" id="plansDone">Escolher este plano</button></div>
+  </div>
+
+  <!-- Riscos -->
+  <div class="sheet" id="shRisk" role="dialog" aria-label="Riscos do meu negócio">
+    <div class="grab"></div>
+    <div class="sh"><h4>Riscos para a continuidade</h4><button data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M19 6.4L17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg></button></div>
+    <div class="sb">
+      <div id="riskIntro"></div>
+      <div id="riskList"></div>
+    </div>
+  </div>
+
+  <!-- Corrigir dados -->
+  <div class="sheet" id="shEdit" role="dialog" aria-label="Corrigir dados">
+    <div class="grab"></div>
+    <div class="sh"><h4>Corrigir dados</h4><button data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M19 6.4L17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg></button></div>
+    <div class="sb">
+      <div class="ed"><label>Área do restaurante</label>
+        <div class="stepper"><button class="s" id="minus" aria-label="Diminuir área">−</button><output id="areaOut"></output><button class="s" id="plus" aria-label="Aumentar área">+</button></div></div>
+      <div class="ed"><label>Faturamento mensal</label><div class="opts" id="optFat"></div></div>
+      <div class="ed"><label>Construção do imóvel</label><div class="opts" id="optCon"></div></div>
+      <div class="ed"><label>O restaurante funciona na Alameda Estrela, 1287, Galeria, loja 15?</label><div class="opts" id="optEnd"></div></div>
+    </div>
+    <div class="sf"><button class="btn" id="editSave">Salvar</button></div>
+  </div>
+
+  <!-- Contratar -->
+  <div class="sheet" id="shBuy" role="dialog" aria-label="Confirmar contratação">
+    <div class="grab"></div>
+    <div class="sh"><h4 id="buyTitle">Confirmar contratação</h4><button data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M19 6.4L17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg></button></div>
+    <div class="sb">
+      <div id="buyStep">
+        <div class="sum">
+          <div><span>Plano</span><span id="sPlan"></span></div>
+          <div><span>Estabelecimento</span><span>Restaurante · Alameda Estrela, 1287</span></div>
+          <div><span>Início da vigência</span><span>Hoje, 28/10/2026</span></div>
+        </div>
+        <div class="h5" style="margin-top:8px">Prazo do seguro</div>
+        <div class="vig" id="vig">
+          <button aria-pressed="true" data-v="1"><b>Anual</b>12 meses, renovação no fim</button>
+          <button aria-pressed="false" data-v="2"><b>Plurianual</b>24 meses, preço travado</button>
+        </div>
+        <div class="sum">
+          <div class="tot"><span style="color:var(--navy)">Total mensal</span><span id="sTot"></span></div>
+        </div>
+        <p class="note" style="margin-top:8px" id="sWarn"></p>
+        <div class="bio" id="bio"></div>
+      </div>
+      <div class="done" id="done">
+        <div class="ok"><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg></div>
+        <h5>Seguro contratado</h5>
+        <p id="doneTxt"></p>
+        <button class="btn" data-close>Concluir</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Privacidade -->
+  <div class="sheet" id="shPriv" role="dialog" aria-label="Que dados usamos">
+    <div class="grab"></div>
+    <div class="sh"><h4>Que dados usamos</h4><button data-close aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M19 6.4L17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg></button></div>
+    <div class="sb">
+      <p class="note">Usamos só o necessário para sugerir a proteção certa, conforme a LGPD. Você decide o que continua.</p>
+      <div class="drow"><div>Atividade da empresa (CNAE)<small>Mostra os riscos do seu tipo de negócio</small></div><button class="tog" role="switch" aria-checked="true" aria-label="Atividade da empresa"></button></div>
+      <div class="drow"><div>Endereço (CEP)<small>Avalia vendaval e roubo na região</small></div><button class="tog" role="switch" aria-checked="true" aria-label="Endereço"></button></div>
+      <div class="drow"><div>Faturamento e movimentação<small>Ajusta o valor protegido ao seu porte</small></div><button class="tog" role="switch" aria-checked="true" aria-label="Faturamento"></button></div>
+      <div class="drow"><div>Bens cadastrados<small>Identifica equipamentos e o que precisa de proteção</small></div><button class="tog" role="switch" aria-checked="true" aria-label="Bens cadastrados"></button></div>
+      <div class="drow" style="border:0"><div>Estabelecimentos e filiais<small>Divide a proteção entre os endereços</small></div><button class="tog" role="switch" aria-checked="true" aria-label="Filiais"></button></div>
+      <p class="note" style="margin-top:12px">Sem esses dados, mostramos um plano padrão e perguntamos o que faltar.</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+</div>
+
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var CHK='<svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>';
+  var DASH='<svg viewBox="0 0 24 24"><path d="M5 11h14v2H5z"/></svg>';
+  var IC={
+    fire:'<svg class="ic" viewBox="0 0 24 24"><path fill="#2F6B5F" d="M19.48 12.35c-1.57-4.08-7.16-4.3-5.81-10.23.1-.44-.37-.78-.75-.55C9.29 3.71 6.68 8 8.87 13.62c.18.46-.36.89-.75.59-1.81-1.37-2-3.34-1.84-4.75.06-.52-.62-.77-.91-.34C4.69 10.16 4 11.84 4 14.37c.38 5.6 5.11 7.32 6.81 7.54 2.43.31 5.06-.14 6.95-1.87 2.08-1.93 2.84-5.01 1.72-7.69z"/></svg>',
+    bolt:'<svg class="ic" viewBox="0 0 24 24"><path fill="#2F6B5F" d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>',
+    wind:'<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#2F6B5F" stroke-width="2" stroke-linecap="round"><path d="M3 8h11a3 3 0 10-3-3M3 12h16a3 3 0 11-3 3M3 16h8"/></svg>',
+    lock:'<svg class="ic" viewBox="0 0 24 24"><path fill="#2F6B5F" d="M18 8h-1V6A5 5 0 007 6v2H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zm-6 9a2 2 0 110-4 2 2 0 010 4zM9 8V6a3 3 0 016 0v2z"/></svg>',
+    home:'<svg class="ic" viewBox="0 0 24 24"><path fill="#2F6B5F" d="M12 3L2 12h3v8h5v-6h4v6h5v-8h3z"/></svg>',
+    people:'<svg class="ic" viewBox="0 0 24 24"><path fill="#2F6B5F" d="M16 11a3 3 0 100-6 3 3 0 000 6zm-8 0a3 3 0 100-6 3 3 0 000 6zm0 2c-2.3 0-7 1.2-7 3.5V19h14v-2.5C15 14.2 10.3 13 8 13zm8 0c-.3 0-.6 0-1 .1 1.2.8 2 2 2 3.4V19h6v-2.5c0-2.3-4.7-3.5-7-3.5z"/></svg>',
+    money:'<svg class="ic" viewBox="0 0 24 24"><path fill="#2F6B5F" d="M3 6h18v12H3zm9 9a3 3 0 100-6 3 3 0 000 6z"/></svg>',
+    glass:'<svg class="ic" viewBox="0 0 24 24"><path fill="#2F6B5F" d="M4 3h16v18H4zm2 2v14h5V5zm7 0v14h5V5z"/></svg>',
+    worker:'<svg class="ic" viewBox="0 0 24 24"><path fill="#2F6B5F" d="M12 12a4 4 0 100-8 4 4 0 000 8zm0 2c-3.3 0-8 1.7-8 5v2h16v-2c0-3.3-4.7-5-8-5zM8 4h8v2H8z"/></svg>'
+  };
+  $('i1').innerHTML=IC.fire;$('i2').innerHTML=IC.bolt;$('i3').innerHTML=IC.home;$('i4').innerHTML=IC.lock;
+
+  // Coberturas conforme material público da BB Seguros
+  var COV={
+    inc:{n:'Incêndio, queda de raio, explosão e fumaça',d:'Danos ao imóvel, móveis, máquinas e estoque.',v:'Valor sugerido: R$ 365 mil a R$ 530 mil (bens cadastrados + estoque).',ic:'fire'},
+    ele:{n:'Danos elétricos',d:'Queima de equipamentos por curto-circuito ou oscilação de energia.',v:'Valor sugerido: R$ 66 mil a R$ 112 mil (30% dos equipamentos de cozinha e refrigeração).',ic:'bolt'},
+    alu:{n:'Perda ou pagamento de aluguel',d:'Paga o aluguel se o imóvel ficar sem condições de uso após um sinistro.',v:'Valor sugerido: R$ 66 mil a R$ 133 mil (3 a 6 meses de aluguel de R$ 22.150).',ic:'home'},
+    rce:{n:'Responsabilidade civil do estabelecimento',d:'Danos causados a clientes e terceiros dentro do seu negócio.',v:'Valor sugerido: R$ 100 mil a R$ 300 mil (restaurante que atende público no local).',ic:'people'},
+    dfx:{n:'Despesas fixas',d:'Ajuda com salários e contas fixas enquanto a operação está parada.',v:'Valor sugerido: R$ 210 mil a R$ 421 mil (2 a 4 meses de despesas fixas de R$ 105.250).',ic:'money'},
+    rou:{n:'Roubo ou furto por arrombamento',d:'Bens levados com arrombamento do local.',v:'Valor sugerido: R$ 71 mil a R$ 143 mil (20% a 40% dos bens no local).',ic:'lock'},
+    ven:{n:'Vendaval, granizo, ciclone, tornado e furacão',d:'Danos ao telhado, fachada e estrutura causados pelo clima.',v:'Valor sugerido: R$ 36 mil a R$ 71 mil (10% a 20% dos bens). A base não traz índice de vendaval da região.',ic:'wind'},
+    vid:{n:'Quebra de vidros',d:'Vitrines, portas e janelas de vidro.',v:'Não há cadastro de vitrine. Confirme se a loja na galeria tem fachada de vidro.',ic:'glass'},
+    rcm:{n:'Responsabilidade civil do empregador',d:'Acidentes de trabalho envolvendo seus funcionários.',v:'Valor sugerido: R$ 153 mil a R$ 306 mil (3 a 6 folhas de R$ 51.050, 7 funcionários estimados).',ic:'worker'}
+  };
+  var ORDER=['inc','ele','alu','rce','dfx','rou','ven','vid','rcm'];
+  var PLANS=[
+    {k:'Essencial',price:189.90,covs:['inc','ele','alu','rce','dfx'],assist:'9',
+     desc:'Protege o patrimônio físico contra os riscos mais comuns. Indicado para quem está começando no seguro.',
+     fit:{ok:false,t:'Para você: deixaria sem proteção contra roubo os R$ 521 mil em bens cadastrados.'}},
+    {k:'Prático',price:249.90,covs:['inc','ele','alu','rce','dfx','rou','ven'],assist:'31',rec:true,
+     desc:'Tudo do Essencial mais roubo e eventos climáticos. Para negócios com bens de valor ou em regiões expostas ao clima.',
+     fit:{ok:true,t:'Para você: cobre os 4 sinais encontrados nos seus dados, inclusive o roubo dos R$ 521 mil em bens.'}},
+    {k:'Total',price:329.90,covs:ORDER.slice(),assist:'40+',
+     desc:'Tudo do Prático mais quebra de vidros e RC do empregador. Inclui um benefício extra, como detector de fumaça ou câmera Wi-Fi.',
+     fit:{ok:false,t:'Para você: soma RC do empregador (7 funcionários estimados) e quebra de vidros (loja em galeria, sem vitrine cadastrada). Vale se quiser proteger acidentes de trabalho.'}}
+  ];
+  var FAT=['Até R$ 150 mil','R$ 150 a 300 mil','R$ 300 a 500 mil','Acima de R$ 500 mil'];
+  var FATV=[100000,271550,400000,600000];
+  var CON=['Alvenaria','Mista','Madeira'];
+  var S={cur:1,pick:1,area:220,fat:1,fatEd:false,con:-1,end:-1,confirmed:false,vig:1};
+
+  function brl(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}
+  function factor(){return (S.area-220)*0.3+(S.fat-1)*25+(S.con===1?12:S.con===2?30:0)}
+  function total(i){i=(i==null?S.cur:i);var t=PLANS[i].price+factor();if(S.vig===2)t*=0.95;return Math.max(t,40)}
+  function dayLoss(){return FATV[S.fat]/30}
+
+  function renderConfirm(){
+    var rows=[
+      ['Área do restaurante',S.area+' m²','Sem cadastro, estimada pelo aluguel','estimada'],
+      ['Faturamento mensal',S.fatEd?FAT[S.fat]:'R$ 271.550','Presumido pelos gastos','presumido'],
+      ['Construção do imóvel',S.con<0?'Não cadastrada':CON[S.con],'Sem cadastro','ausente'],
+      ['Endereço',S.end===1?'Outro endereço':'Alameda Estrela, 1287',S.end===0?'Confirmado por você':'Diferente do endereço do CNPJ','a confirmar']
+    ];
+    $('cfList').innerHTML=rows.map(function(r){
+      return '<div class="cf-row"><div class="t">'+r[0]+'<small>'+(S.confirmed&&r[0]!=='Endereço'?'Informado por você':r[2])+'</small></div><b>'+r[1]+'</b> <span class="tagx'+(S.confirmed?' ok':'')+'">'+(S.confirmed?'corrigido':r[3])+'</span></div>';
+    }).join('');
+    $('cfBtns').style.display='flex';
+    $('okline').style.display=S.confirmed?'flex':'none';
+  }
+  function renderCovs(){
+    var p=PLANS[S.cur];
+    $('covTitle').textContent='Coberturas incluídas ('+p.covs.length+')';
+    $('covSub').textContent='Plano '+p.k+'. Toque no ícone para ver o que cada cobertura protege.';
+    $('covList').innerHTML=p.covs.map(function(k){
+      var c=COV[k];
+      return '<div class="cov"><button class="ib" aria-expanded="false" aria-label="Ver descrição de '+c.n+'">'+IC[c.ic]+'</button><div class="t"><b>'+c.n+'</b><span>'+c.d+(c.v?'<em>'+c.v+'</em>':'')+'</span></div></div>';
+    }).join('');
+    $('assist').innerHTML='<b>+ '+p.assist+' assistências</b> para manter o negócio funcionando, como eletricista, encanador, chaveiro e conserto de equipamentos.'+(S.cur===2?' Inclui detector de fumaça ou câmera Wi-Fi.':'');
+  }
+  function refresh(){
+    var p=PLANS[S.cur];
+    $('planName').textContent='Empresarial '+p.k;
+    $('price').textContent=brl(total());
+    document.querySelector('.biz').textContent='Restaurante · São Paulo/SP · '+p.covs.length+' coberturas';
+    renderConfirm();renderCovs();
+  }
+
+  // Recomendação
+  function renderRec(){
+    var e=S.confirmed?'':'<small>estimado</small>';
+    var rows=[
+      ['Empresa','CASO_00044 · base de teste'],
+      ['Atividade','CNAE 5611-2/01 · Restaurantes e similares'],
+      ['Porte','Micro · 7 funcionários estimados'],
+      ['Estabelecimento','Matriz · único endereço'],
+      ['Endereço','Alameda Estrela, 1287, Galeria, loja 15 · São Paulo/SP'+(S.end===0?'':'<small>diferente do CNPJ</small>')],
+      ['Situação do imóvel','Regular'],
+      ['Faturamento mensal',(S.fatEd?FAT[S.fat]:'R$ 271.550')+(S.confirmed?'':'<small>presumido pelos gastos</small>')],
+      ['Aluguel','R$ 22.150/mês, recorrente'],
+      ['Despesas fixas','R$ 105.250/mês'],
+      ['Área',S.area+' m²'+(S.confirmed?'':'<small>estimada pelo aluguel</small>')],
+      ['Construção',(S.con<0?'Não cadastrada':CON[S.con])],
+      ['Bens cadastrados','4 itens · R$ 521 mil<small>R$ 357 mil ponderado pela chance de estar no local</small>']
+    ];
+    $('recData').innerHTML=rows.map(function(r){return '<div class="kv"><span>'+r[0]+'</span><span>'+r[1]+'</span></div>'}).join('');
+    $('recConf').innerHTML=S.confirmed
+      ?'<b>Dados informados por você.</b> O valor usa as informações que você corrigiu.'
+      :'<b>4 dados pedem atenção:</b> área e construção não estão cadastradas, o faturamento é presumido e o endereço difere do CNPJ. A escolha do plano não muda com eles. Se quiser, você pode <a href="#" id="goCf">revisar os dados</a>.';
+    var g=$('goCf');if(g)g.addEventListener('click',function(e){e.preventDefault();closeAll();$('confirmCard').style.display='';$('confirmCard').scrollIntoView({behavior:'smooth',block:'center'})});
+  }
+
+  // Planos
+  function renderPlans(){
+    $('seg').innerHTML=PLANS.map(function(p,i){return '<button role="tab" data-i="'+i+'" aria-selected="'+(i===S.pick)+'">'+p.k+(p.rec?'<span class="dot" aria-label="recomendado"></span>':'')+'</button>'}).join('');
+    var p=PLANS[S.pick];
+    var h='<div class="ph"><b>'+p.k+'</b><span>'+brl(total(S.pick))+'<small style="font-size:13px;font-weight:500">/mês</small></span></div>'
+      +(p.rec?'<span class="rec">Recomendado para você</span>':'')
+      +'<p class="note" style="margin:10px 0 0">'+p.desc+'</p>'
+      +'<div class="facts"><div><b>'+p.covs.length+'</b><span>coberturas</span></div><div><b>'+p.assist+'</b><span>assistências</span></div><div><b>'+(S.pick===2?'Sim':'Não')+'</b><span>benefício extra</span></div></div>'
+      +'<div class="fit '+(p.fit.ok?'yes':'no')+'">'+p.fit.t+'</div>'
+      +'<div class="h5">O que está incluído</div>';
+    h+=ORDER.map(function(k){var inn=p.covs.indexOf(k)>-1;return '<div class="cl '+(inn?'in':'out')+'">'+(inn?CHK:DASH)+'<div>'+COV[k].n+'<small>'+COV[k].d+'</small></div></div>'}).join('');
+    $('planDetail').innerHTML=h;
+    var m='<table class="mx"><thead><tr><th>Cobertura</th>'+PLANS.map(function(p,i){return '<th class="'+(i===S.pick?'cur':'')+'">'+p.k+'</th>'}).join('')+'</tr></thead><tbody>';
+    ORDER.forEach(function(k){m+='<tr><td>'+COV[k].n+'</td>'+PLANS.map(function(p){var y=p.covs.indexOf(k)>-1;return '<td class="'+(y?'y':'n')+'">'+(y?'✓':'–')+'</td>'}).join('')+'</tr>'});
+    m+='<tr class="tot"><td>Assistências</td>'+PLANS.map(function(p){return '<td>'+p.assist+'</td>'}).join('')+'</tr>';
+    m+='<tr class="tot"><td>Valor mensal</td>'+PLANS.map(function(p,i){return '<td>'+brl(total(i)).replace('R$ ','')+'</td>'}).join('')+'</tr></tbody></table>';
+    $('matrix').innerHTML=m;
+    $('plansDone').textContent=S.pick===S.cur?'Manter o '+p.k:'Escolher o '+p.k;
+  }
+
+  // Riscos
+  var RISKS=[
+    {n:'Incêndio na cozinha',ic:'fire',dano:365150,days:30,fr:5000,cov:['inc','dfx','alu']},
+    {n:'Pane nas câmaras frias',ic:'bolt',dano:75750,days:3,fr:2000,cov:['ele']},
+    {n:'Arrombamento fora do horário',ic:'lock',dano:71470,days:2,fr:3000,cov:['rou']},
+    {n:'Temporal danifica a fachada',ic:'wind',dano:36000,days:5,fr:2000,cov:['ven']},
+    {n:'Vitrine de vidro quebrada',ic:'glass',dano:8000,days:1,fr:500,cov:['vid']},
+    {n:'Cliente se machuca no salão',ic:'people',dano:30000,days:0,fr:0,cov:['rce']},
+    {n:'Funcionário se acidenta',ic:'worker',dano:40000,days:0,fr:0,cov:['rcm']}
+  ];
+  function r0(v){return 'R$ '+Math.round(v).toLocaleString('pt-BR')}
+  function renderRisks(){
+    var p=PLANS[S.cur],dl=dayLoss(),tSem=0,tCom=0;
+    var cards=RISKS.map(function(r){
+      var ok=r.cov.every(function(k){return p.covs.indexOf(k)>-1});
+      var sem=Math.round(r.dano+r.days*dl), com=ok?r.fr:sem;
+      tSem+=sem;tCom+=com;
+      var where='';
+      if(!ok){for(var i=0;i<PLANS.length;i++){if(r.cov.every(function(k){return PLANS[i].covs.indexOf(k)>-1})){where=PLANS[i].k;break}}}
+      return '<div class="rk"><div class="rk-h"><span class="rk-ic">'+IC[r.ic]+'</span><b>'+r.n+'</b></div>'
+        +'<div class="vs"><div class="sem"><small>Sem seguro</small><b>'+r0(sem)+'</b></div>'
+        +'<div class="com'+(ok?'':' no')+'"><small>Com o '+p.k+'</small><b>'+(ok?r0(com):'Não cobre')+'</b></div></div>'
+        +(ok?'<div class="save">Você economiza '+r0(sem-com)+'</div>':'<div class="save no">Só o plano '+where+' cobre este risco.</div>')
+        +'</div>';
+    }).join('');
+    $('riskIntro').innerHTML='<div class="rk-sum"><p>Se esses imprevistos acontecessem com o seu restaurante, quanto sairia do seu bolso?</p>'
+      +'<div class="vs big"><div class="sem"><small>Sem seguro</small><b>'+r0(tSem)+'</b></div><div class="com"><small>Com o '+p.k+'</small><b>'+r0(tCom)+'</b></div></div>'
+      +'<div class="save">O seguro evita '+r0(tSem-tCom)+' em prejuízo</div></div>';
+    $('riskList').innerHTML=cards+'<p class="note" style="margin-top:4px">Calculado com os dados da base: bens de R$ 357 mil (ponderado), estoque e faturamento de R$ 271.550/mês. "Sem seguro" soma o prejuízo e os dias sem faturar. "Com seguro" é a franquia estimada.</p>';
+  }
+
+  // Sheets
+  function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){t.classList.remove('show')},2200)}
+  var SH=['shRec','shPlans','shRisk','shEdit','shBuy','shPriv'];
+  function open(id){closeAll();$('scrim').classList.add('show');$(id).classList.add('show')}
+  function closeAll(){SH.forEach(function(s){$(s).classList.remove('show')});$('scrim').classList.remove('show')}
+  $('scrim').addEventListener('click',closeAll);
+  document.addEventListener('click',function(e){if(e.target.closest('[data-close]'))closeAll()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll()});
+
+  $('covList').addEventListener('click',function(e){var b=e.target.closest('.ib');if(!b)return;var o=b.parentNode.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+  $('logicBtn').addEventListener('click',function(){var l=$('logic'),o=l.hidden;l.hidden=!o;this.setAttribute('aria-expanded',o);this.textContent=o?'Ocultar explicação':'Ver como os sinais levaram ao Prático'});
+  
+  $('recBtn').addEventListener('click',function(){renderRec();open('shRec')});
+  $('cmpBtn').addEventListener('click',function(){S.pick=S.cur;renderPlans();open('shPlans')});
+  $('seg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;S.pick=+b.dataset.i;renderPlans()});
+  $('plansDone').addEventListener('click',function(){S.cur=S.pick;refresh();closeAll();toast('Plano '+PLANS[S.cur].k+' selecionado')});
+  $('riskBtn').addEventListener('click',function(){renderRisks();open('shRisk')});
+
+  // Confirmar em 1 toque
+  
+  function renderEdit(){
+    $('areaOut').textContent=S.area+' m²';
+    $('optFat').innerHTML=FAT.map(function(f,i){return '<button data-i="'+i+'" aria-pressed="'+(i===S.fat)+'">'+f+'</button>'}).join('');
+    $('optCon').innerHTML=CON.map(function(f,i){return '<button data-i="'+i+'" aria-pressed="'+(i===S.con)+'">'+f+'</button>'}).join('');
+    $('optEnd').innerHTML=['Sim, é este','Não, é outro'].map(function(f,i){return '<button data-i="'+i+'" aria-pressed="'+(i===S.end)+'">'+f+'</button>'}).join('');
+  }
+  $('cfEdit').addEventListener('click',function(){renderEdit();open('shEdit')});
+  $('minus').addEventListener('click',function(){S.area=Math.max(20,S.area-10);renderEdit()});
+  $('plus').addEventListener('click',function(){S.area+=10;renderEdit()});
+  $('optFat').addEventListener('click',function(e){var b=e.target.closest('button');if(b){S.fat=+b.dataset.i;S.fatEd=true;renderEdit()}});
+  $('optEnd').addEventListener('click',function(e){var b=e.target.closest('button');if(b){S.end=+b.dataset.i;renderEdit()}});
+  $('optCon').addEventListener('click',function(e){var b=e.target.closest('button');if(b){S.con=+b.dataset.i;renderEdit()}});
+  $('editSave').addEventListener('click',function(){S.confirmed=true;refresh();closeAll();toast('Dados atualizados')});
+
+  // Contratar
+  var BIO='<button class="bio-btn" id="bioBtn" aria-label="Confirmar com biometria"><svg viewBox="0 0 24 24"><path d="M12 11a1 1 0 00-1 1c0 3-1 5.5-2.7 7.3l1.4 1.4C11.7 18.6 13 15.6 13 12a1 1 0 00-1-1zm0-4a5 5 0 00-5 5c0 1.8-.5 3.4-1.4 4.7l1.6 1.2A10 10 0 009 12a3 3 0 016 0c0 2.7-.6 5.3-1.6 7.5l1.8.9A20 20 0 0017 12a5 5 0 00-5-5zm0-4a9 9 0 00-9 9c0 1.1-.2 2.1-.6 3l1.8.8c.5-1.2.8-2.5.8-3.8a7 7 0 0114 0c0 1.3-.1 2.6-.3 3.8l2 .4c.2-1.4.3-2.8.3-4.2a9 9 0 00-9-9z"/></svg></button><span>Toque para confirmar com sua digital</span>';
+  function renderBuy(){
+    $('sPlan').textContent=PLANS[S.cur].k;
+    $('sTot').textContent=brl(total());
+    Array.prototype.forEach.call($('vig').children,function(b){b.setAttribute('aria-pressed',+b.dataset.v===S.vig)});
+    $('sWarn').innerHTML=(S.confirmed?'':'Valor calculado com dados estimados; você pode revisá-los quando quiser em Meus Seguros. ')+'Emissão imediata. Em alguns casos, a seguradora pode pedir uma vistoria antes de emitir a apólice. '
+      +'<a href="#" onclick="return false">Ler condições completas</a>';
+    var g=$('goCf2');if(g)g.addEventListener('click',function(e){e.preventDefault();closeAll();$('confirmCard').scrollIntoView({behavior:'smooth',block:'center'})});
+  }
+  $('vig').addEventListener('click',function(e){var b=e.target.closest('button');if(b){S.vig=+b.dataset.v;renderBuy()}});
+  $('buy').addEventListener('click',function(){
+    $('buyStep').style.display='block';$('done').style.display='none';$('buyTitle').textContent='Confirmar contratação';
+    renderBuy();$('bio').innerHTML=BIO;
+    $('bioBtn').addEventListener('click',function(){
+      $('bio').innerHTML='<div class="spin" aria-label="Validando"></div><span>Validando…</span>';
+      setTimeout(function(){
+        $('buyStep').style.display='none';$('done').style.display='flex';$('buyTitle').textContent='Tudo certo';
+        $('doneTxt').textContent='Plano '+PLANS[S.cur].k+' ativo para o restaurante da Alameda Estrela até '+(S.vig===1?'28/10/2027':'28/10/2028')+'. A apólice está em Meus Seguros.';
+      },1000);
+    });
+    open('shBuy');
+  });
+
+  
+  $('shPriv').addEventListener('click',function(e){var b=e.target.closest('.tog');if(b)b.setAttribute('aria-checked',b.getAttribute('aria-checked')!=='true')});
+  $('helpBtn').addEventListener('click',function(){toast('Dúvidas? Fale com seu gerente pelo chat.')});
+
+  refresh();
+})();
+</script>
+</body>
+</html>
